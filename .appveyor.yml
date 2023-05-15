@@ -21,6 +21,9 @@ environment:
   # This requires setting `APPVEYOR_SSH_KEY` and `APPVEYOR_SSH_BLOCK`
   ACTIVATE_SSH_LOGIN: no
 
+  # The python version that should be used to run the tests
+  PYTHON_VERSION: 3.7
+
   # The git-annex deb-package we want to use
   GIT_ANNEX_DEB: http://snapshot.debian.org/archive/debian/20210906T204127Z/pool/main/g/git-annex/git-annex_8.20210903-1_amd64.deb
 
@@ -54,7 +57,9 @@ install:
       done
 
   # Run the ingestion script
-  - sh: . ~/venv3.7/bin/activate
+  - sh: . ~/venv${PYTHON_VERSION}/bin/activate
+  - sh: which python
+  - sh: python --version
   - sh: python3 -m pip install --upgrade pip
   - sh: sudo python3 -m pip install -r requirements-devel.txt
   - sh: sudo python3 -m pip install --pre datalad-next
@@ -108,7 +113,8 @@ build: off
 # debian "bullseye". Nevertheless, let's create a virtual environment to keep
 # things separated.
 build_script:
-  - sh: . ~/venv3.7/bin/activate
+  #- sh: . ~/venv${PYTHON_VERSION}/bin/activate
+  - sh: which python
   - sh: python --version
   # Install requirements
   - sh: python -m pip install -r requirements-devel.txt
@@ -117,7 +123,8 @@ build_script:
 
 
 before_test:
-  - sh: . ~/venv3.7/bin/activate
+  #- sh: . ~/venv${PYTHON_VERSION}/bin/activate
+  - sh: which python
   - sh: python --version
   # simple call to see if datalad and git-annex are installed properly
   - datalad wtf
