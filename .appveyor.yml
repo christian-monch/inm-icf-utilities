@@ -140,9 +140,6 @@ build_script:
   - cat /usr/lib/ssl/certs/ChristianMoenchCA.pem >> $(python3 -c "import certifi; print(certifi.where())")
   - sudo hostname data.inm-icf.de
 
-  # Check program versions and report
-  - .appveyor/check_versions --warn-only ${ICF_PYTHON_VERSION} ${ICF_GIT_VERSION} ${ICF_GIT_ANNEX_VERSION}
-
 before_test:
   # simple call to see if datalad and git-annex are installed properly
   - datalad wtf
